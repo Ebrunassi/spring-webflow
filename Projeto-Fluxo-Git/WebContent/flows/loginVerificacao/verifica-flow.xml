@@ -9,12 +9,13 @@ http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 	<view-state id="displayLoginView" view="login.jsp" model="user">
 		<transition on="faz-login" to="verifica-sucesso" />
 		<transition on="requisicao-cadastro" to="cadastro" />
+		<transition on="requisicao-deletar" to ="deletar" />
 	</view-state>
 	
 	<action-state id="verifica-sucesso">
 		<!-- <evaluate expression="validaUser.verifica_nome(user)" />	-->	<!-- Lembre-se que o nome da função SEMPRE começa com letra minúscula, mesmo que esteja com letra maiúscula originalmente -->
 		<!-- <evaluate expression="userDAO.getInstance().merge(user)" />    usando o 'merge' deu certo -->
-		<evaluate expression="userDAO.getInstance().persist(user)" />
+		<evaluate expression="userDAO.getInstance().merge(user)" />
 		<transition on="true"  to="sucesso-view" />
 		<transition on="false" to="login-erro" />
 	</action-state>
@@ -26,6 +27,10 @@ http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 		<transition on="acao-cadastro" to="verifica-cadastro-sucesso" />		
 	</view-state>
 	
+	<view-state id="deletar" view="../deletar/deletar-usuario.jsp" model="user">
+		<transition on="deletar-formulario" to="verifica-deletar-usuario" />
+	</view-state>
+	
 	<action-state id="verifica-cadastro-sucesso">
 		<evaluate expression="validaUser.verifica_cadastro(user)" />
 		<evaluate expression="validaUser.verifica_nome(user)" />
@@ -33,7 +38,14 @@ http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 		<transition on="false" to="login-erro" />
 	</action-state>
 	
+	<action-state id="verifica-deletar-usuario">
+		<evaluate expression="userDAO.getInstance().remove(user)"></evaluate>
+		<transition on="true" to="sucesso-remocao" />
+		<transition on="false" to="erro-delecao" />
+	</action-state>
 	
+	<view-state id="sucesso-remocao" view="../deletar/deletar-sucesso.jsp" />
+	<view-state id="erro-delecao"   view="../deletar/deletar-erro.jsp" />
 	
 	
 </flow>

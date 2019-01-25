@@ -23,5 +23,12 @@
 		<input type="submit" value="Cadastrar" />
 	</form>
 	
+	
+	<form action="${flowExecutionUrl}" method="post">
+		<input type="hidden" name="_eventId" value="requisicao-deletar">
+		<input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
+		
+		<input type="submit" value="Deletar" />
+	</form>
 </body>
 </html>

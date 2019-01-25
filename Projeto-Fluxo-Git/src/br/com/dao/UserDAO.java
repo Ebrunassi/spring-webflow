@@ -53,8 +53,6 @@ public class UserDAO {
                             entityManager.getTransaction().begin();
                             entityManager.persist(cliente);
                             entityManager.getTransaction().commit();
-			    // Teste para o envio para o git hub
-			    // Alteração número 2
                             return "true";
                    } catch (Exception ex) {
                             ex.printStackTrace();
@@ -78,15 +76,17 @@ public class UserDAO {
                    }
          }
   
-         public void remove(User cliente) {
+         public String remove(User cliente) {
                    try {
                             entityManager.getTransaction().begin();
                             cliente = entityManager.find(User.class, cliente.getId());
                             entityManager.remove(cliente);
                             entityManager.getTransaction().commit();
+                            return "true";
                    } catch (Exception ex) {
                             ex.printStackTrace();
                             entityManager.getTransaction().rollback();
+                            return "false";
                    }
          }
   
