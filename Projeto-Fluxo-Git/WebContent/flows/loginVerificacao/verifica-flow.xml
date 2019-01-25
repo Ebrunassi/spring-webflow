@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
+
+	<var name="user"   class="br.com.model.User" />
+	
+	<view-state id="displayLoginView" view="login.jsp" model="user">
+		<transition on="faz-login" to="verifica-sucesso" />
+		<transition on="requisicao-cadastro" to="cadastro" />
+	</view-state>
+	
+	<action-state id="verifica-sucesso">
+		<!-- <evaluate expression="validaUser.verifica_nome(user)" />	-->	<!-- Lembre-se que o nome da função SEMPRE começa com letra minúscula, mesmo que esteja com letra maiúscula originalmente -->
+		<!-- <evaluate expression="userDAO.getInstance().merge(user)" />    usando o 'merge' deu certo -->
+		<evaluate expression="userDAO.getInstance().persist(user)" />
+		<transition on="true"  to="sucesso-view" />
+		<transition on="false" to="login-erro" />
+	</action-state>
+	
+	<view-state id="sucesso-view" view="login-sucesso.jsp" />
+	<view-state id="login-erro"   view="login-erro.jsp" />
+	
+	<view-state id="cadastro" view="../cadastro/cadastro-tela.jsp" model="user">
+		<transition on="acao-cadastro" to="verifica-cadastro-sucesso" />		
+	</view-state>
+	
+	<action-state id="verifica-cadastro-sucesso">
+		<evaluate expression="validaUser.verifica_cadastro(user)" />
+		<evaluate expression="validaUser.verifica_nome(user)" />
+		<transition on="true" to="verifica-sucesso" />					<!-- Se as senhas forem iguais, ele verifica se o login está OK encaminhando de volta para o state 'verifica-sucesso' -->
+		<transition on="false" to="login-erro" />
+	</action-state>
+	
+	
+	
+	
+</flow>

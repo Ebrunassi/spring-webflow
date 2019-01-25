@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
+
+	<var name="user"   class="br.com.model.User" />
+	
+	<view-state id="displayLoginView" view="login.jsp" model="user">
+		<transition on="submit" to="performLoginAction" />
+		<transition on="performIdade" to="performIdadeAction" />
+		<transition on="outroFluxo"   to="outroFluxoAction"	  />
+	</view-state>
+	
+	<action-state id="performLoginAction">
+		<evaluate expression="loginService.validateUser(loginBean)" />
+
+		<transition on="true" to="displaySuccess" />
+		<transition on="false" to="displayError" />
+
+	</action-state>
+	
+	<action-state id="performIdadeAction">
+		<evaluate expression="loginService.checaIdade(loginBean)" />
+
+		<transition on="true" to="displaySuccess" />
+		<transition on="false" to="displayError" />
+
+	</action-state>
+	
+	<action-state id="outroFluxoAction">
+		<evaluate expression="loginService.direciona(loginBean)" />
+		<transition on="1" to="outraPagina" />
+	</action-state>
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	<view-state id="outraPagina" view="jsp/segunda_pagina.jsp" model="loginBean">
+		<transition on="valida-login" to="valida-login-action" />
+	</view-state>
+	
+	<action-state id="valida-login-action">
+		<evaluate expression="loginService.validateUser(loginBean)" />
+
+		<transition on="true"     to="displaySuccess" />
+		<transition on="false" to="displayError" />
+
+	</action-state>
+	
+	
+	<view-state id="displaySuccess" view="jsp/success.jsp" model="loginBean"/>
+
+	<view-state id="displayError" view="jsp/failure.jsp" />
+	
+	
+	
+	
+	
+	
+	
+</flow>
