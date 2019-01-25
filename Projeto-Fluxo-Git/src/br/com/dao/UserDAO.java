@@ -54,6 +54,7 @@ public class UserDAO {
                             entityManager.persist(cliente);
                             entityManager.getTransaction().commit();
 			    // Teste para o envio para o git hub
+			    // Alteração número 2
                             return "true";
                    } catch (Exception ex) {
                             ex.printStackTrace();

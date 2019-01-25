@@ -15,6 +15,7 @@ http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 		<!-- <evaluate expression="validaUser.verifica_nome(user)" />	-->	<!-- Lembre-se que o nome da função SEMPRE começa com letra minúscula, mesmo que esteja com letra maiúscula originalmente -->
 		<!-- <evaluate expression="userDAO.getInstance().merge(user)" />    usando o 'merge' deu certo -->
 		<evaluate expression="userDAO.getInstance().persist(user)" />
+		<evaluate expression="userDAO.getInstance().merge(user)" />
 		<transition on="true"  to="sucesso-view" />
 		<transition on="false" to="login-erro" />
 	</action-state>
