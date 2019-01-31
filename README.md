@@ -6,3 +6,5 @@ Para a persistência dos dados, fora criado uma classe 'userDAO'. A qual contém
 
 Obs : Criei um banco local, server 'poi', banco 'hibernate_bd', senha '1'.
 Além disso, foi criado através do hibernate uma tabela chamada 'usuario'
+
+Deus abençoe
